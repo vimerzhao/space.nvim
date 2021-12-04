@@ -54,6 +54,8 @@ set listchars=tab:»■,precedes:«,extends:»,trail:■ "eol:换行符 / space:
 " 开始配置插件，使用vim-plug管理（Vundle已经不维护了）
 
 " Ref: https://www.cnblogs.com/cniwoq/p/13272746.html
+" sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim \
+"    --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
 " TODO 后续还要多每个插件深入了解，进行更合理的配置
 call plug#begin('~/.vim/plugged')
 Plug 'Yggdroot/indentLine' " 提供一个可视化的缩进
