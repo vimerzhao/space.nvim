@@ -3,21 +3,15 @@
 " Author: vimerzhao
 " Email:  vimerzhao@gmail.com
 "
-" This is my neovim config(which will keep consistent with spacemacs).
-" Why not spf-13(which I have used for many years)? No longer maintained.
-" Why not SpaceVim? I want my config small and clear(which mean that I know
-" every line in my config)
-" For more: 
+" 一、 为什么要维护这份配置
 "
-" Ref:
-"
-
-" Basic Editor Config
+" 是否可以让部分配置延迟加载
 
 set nocompatible " no compatible with Vi
 
 " 开启行号，并使用相对行号
 set number relativenumber
+highlight LineNr ctermfg=grey
 
 " 高亮当前行,并设置下样式
 set cursorline
@@ -28,7 +22,7 @@ set encoding=utf-8 fileencodings=utf-8 termencoding=utf-8
 
 " 在Insert模式下插入，不自动进行Tab缩进
 " 注意这个set会重置expandtab，所以必须放在前面
-set paste
+" set paste
 
 " 设置Tab规则
 set tabstop=4 shiftwidth=4 expandtab autoindent
@@ -51,6 +45,21 @@ set autoread
 set list "突出显示不可见字符
 set listchars=tab:»■,precedes:«,extends:»,trail:■ "eol:换行符 / space:空格
 
+" -----------------------------------------------------------------------------
+" 模拟Spacemacs的常用快捷键
+" https://stackoverflow.com/questions/446269/can-i-use-space-as-mapleader-in-vim
+map <Space> <Leader>
+
+" 文件管理器
+nnoremap <leader>ft :NERDTreeToggle<CR>
+
+" 窗口操作
+nmap <Leader>w <C-w>
+nmap <Leader>w- :split<CR>
+nmap <Leader>w/ :vsplit<CR>
+
+
+" -----------------------------------------------------------------------------
 " 开始配置插件，使用vim-plug管理（Vundle已经不维护了）
 
 " Ref: https://www.cnblogs.com/cniwoq/p/13272746.html
@@ -68,6 +77,14 @@ Plug 'Xuyuanp/nerdtree-git-plugin'
 call plug#end()
 
 
+" -----------------------------------------------------------------------------
 " 插件配置
+
+" indentLine
 let g:indent_guides_guide_size            = 1  " 指定对齐线的尺寸
 let g:indent_guides_start_level           = 2  " 从第二层开始可视化显示缩进
+
+" nerdtree
+" 最后一个Buffer时直接退出: https://stackoverflow.com/questions/2066590/automatically-quit-vim-if-nerdtree-is-last-and-only-buffer
+autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
+
