@@ -7,6 +7,7 @@
 "
 " 是否可以让部分配置延迟加载
 
+" https://vim.rtorr.com/
 " =============================================================================
 "                       Part1: 基础配置
 " =============================================================================
@@ -15,12 +16,35 @@
 set nocompatible
 
 set number relativenumber
+" https://www.ditig.com/256-colors-cheat-sheet
 highlight Normal cterm=NONE ctermbg=236 ctermfg=NONE guibg=NONE guifg=NONE
-highlight LineNr cterm=NONE ctermbg=NONE ctermfg=grey guibg=NONE guifg=NONE
+highlight LineNr cterm=NONE ctermbg=234 ctermfg=grey guibg=NONE guifg=NONE
 set cursorline
-highlight CursorLine cterm=NONE ctermbg=238 ctermfg=NONE guibg=NONE guifg=NONE
+highlight CursorLine cterm=NONE ctermbg=240 ctermfg=NONE guibg=NONE guifg=NONE
+highlight Visual cterm=NONE ctermbg=1 ctermfg=NONE guibg=NONE guifg=NONE
+
+" 配置弹出框的样式
+highlight PMenu ctermfg=34 ctermbg=238 guifg=black guibg=darkgrey
+highlight PMenuSel ctermfg=40 ctermbg=244 guifg=darkgrey guibg=black
+highlight SignColumn ctermbg=234
+" 底部信息栏/命令输入框的高度，默认1
+" set cmdheight=2
+
+" From coc.nvim
+" Always show the signcolumn, otherwise it would shift the text each time
+" diagnostics appear/become resolved.
+if has("nvim-0.5.0") || has("patch-8.1.1564")
+  " Recently vim can merge signcolumn and number column into one
+  "set signcolumn=number
+else
+  "set signcolumn=yes
+endif
+
+set autowrite
 
 set encoding=utf-8 fileencodings=utf-8 termencoding=utf-8
+" set noic / set noignorecase
+set ignorecase
 
 set tabstop=2 shiftwidth=2 expandtab autoindent
 
@@ -41,9 +65,9 @@ set autoread
 set list
 set listchars=tab:»■,precedes:«,extends:»,trail:■
 
-" 配置弹出框的样式
-highlight PMenu ctermfg=34 ctermbg=237 guifg=black guibg=darkgrey
-highlight PMenuSel ctermfg=40 ctermbg=240 guifg=darkgrey guibg=black
+" 进入Vim和离开InsertMode时，都自动切换到英文输入法
+" TODO 可以更智能，记录之前的输入法
+autocmd VimEnter,InsertLeave * silent! :!im-select 'com.apple.keylayout.ABC'
 
 
 " =============================================================================
@@ -54,9 +78,11 @@ highlight PMenuSel ctermfg=40 ctermbg=240 guifg=darkgrey guibg=black
 "   2. Spacemacs在用快捷键，尽量保持一致
 "
 " 命名参考：
-"   f -> file
+"   a -> ale 相关
+"   c -> coc.nvim 相关
+"   f -> file, 文件操作 / LeaderF相关操作
 "   F -> Function
-"   w -> window
+"   w -> window, 窗口操作
 " https://stackoverflow.com/questions/446269/can-i-use-space-as-mapleader-in-vim
 map <Space> <Leader>
 " Part2.1文件管理器
@@ -66,10 +92,36 @@ nnoremap <leader>ft :NERDTreeToggle<CR>
 nmap <Leader>w <C-w>
 nmap <Leader>w- :split<CR>
 nmap <Leader>w/ :vsplit<CR>
+nmap <Leader><Up> :resize +2<CR>
+nmap <Leader><Down> :resize -2<CR>
+nmap <Leader><Left> :vertical resize +2<CR>
+nmap <Leader><Right> :vertical resize -2<CR>
 
-" Part2.3 LeadF
-noremap <Leader>fm :LeaderfMru<cr>
-noremap <Leader>ff :LeaderfFile<cr>
+" Part2.3 LeaderF
+noremap <Leader>fm :Leaderf mru<cr>
+noremap <Leader>ff :Leaderf file<cr>
+noremap <Leader>fw :Leaderf window<cr>
+noremap <Leader>fb :Leaderf bufTag<cr>
+
+noremap <Leader>vc :cclose<cr>
+
+" Reft: https://clang.llvm.org/docs/ClangFormat.html
+" This is a basic and simple intergration. Need to improve:
+" Ref: https://github.com/vim-autoformat/vim-autoformat
+" Note: <silent> should be after vmap if needed
+if has('python3')
+  vmap <Leader>vf :py3f ~/.config/nvim/tools/clang-format.py<cr>
+endif
+noremap <Leader>vo :copen<cr>
+function! RunProject()
+  let $VIM_RUN_SCRIPT_PATH = findfile('.vimproject/run.sh', ';')
+  :AsyncRun echo ${VIM_RUN_SCRIPT_PATH} && sh ${VIM_RUN_SCRIPT_PATH}
+endfunction
+noremap <Leader>vr :call RunProject()<cr>
+
+
+" noremap <Leader>vC :call CleanProject()<cr>
+
 
 " coc.nvim
 
@@ -91,7 +143,9 @@ Plug 'nvim-treesitter/nvim-treesitter'
 Plug 'mhinz/vim-signify'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'dense-analysis/ale'
-Plug 'Yggdroot/LeaderF'
+Plug 'Yggdroot/LeaderF', { 'do': ':LeaderfInstallCExtension' }
+
+Plug 'skywind3000/asyncrun.vim'
 call plug#end()
 
 
@@ -107,11 +161,9 @@ let g:indent_guides_start_level           = 2
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
 
 " Part3.3 Signify
-highlight SignifySignAdd    ctermfg=green  guifg=#00ff00 cterm=NONE gui=NONE
-highlight SignifySignDelete ctermfg=red    guifg=#ff0000 cterm=NONE gui=NONE
-highlight SignifySignChange ctermfg=yellow guifg=#ffff00 cterm=NONE gui=NONE
-" 空白区域的背景色
-highlight SignColumn ctermbg=NONE
+highlight SignifySignAdd    ctermfg=green  ctermbg=234 guifg=#00ff00 cterm=NONE gui=NONE
+highlight SignifySignDelete ctermfg=red  ctermbg=234  guifg=#ff0000 cterm=NONE gui=NONE
+highlight SignifySignChange ctermfg=yellow ctermbg=234 guifg=#ffff00 cterm=NONE gui=NONE
 
 
 " Part3.4 LeaderF
@@ -170,9 +222,6 @@ set hidden
 set nobackup
 set nowritebackup
 
-" Give more space for displaying messages.
-set cmdheight=2
-
 " Having longer updatetime (default is 4000 ms = 4 s) leads to noticeable
 " delays and poor user experience.
 set updatetime=300
@@ -180,14 +229,6 @@ set updatetime=300
 " Don't pass messages to |ins-completion-menu|.
 set shortmess+=c
 
-" Always show the signcolumn, otherwise it would shift the text each time
-" diagnostics appear/become resolved.
-if has("nvim-0.5.0") || has("patch-8.1.1564")
-  " Recently vim can merge signcolumn and number column into one
-  set signcolumn=number
-else
-  set signcolumn=yes
-endif
 
 " Use tab for trigger completion with characters ahead and navigate.
 " NOTE: Use command ':verbose imap <tab>' to make sure tab is not mapped by
@@ -312,30 +353,31 @@ set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
 
 " Mappings for CoCList
 " Show all diagnostics.
-nnoremap <silent><nowait> <space>a  :<C-u>CocList diagnostics<cr>
+nnoremap <silent><nowait> <space>ca  :<C-u>CocList diagnostics<cr>
 " Manage extensions.
-nnoremap <silent><nowait> <space>e  :<C-u>CocList extensions<cr>
+nnoremap <silent><nowait> <space>ce  :<C-u>CocList extensions<cr>
 " Show commands.
-nnoremap <silent><nowait> <space>c  :<C-u>CocList commands<cr>
+nnoremap <silent><nowait> <space>cc  :<C-u>CocList commands<cr>
 " Find symbol of current document.
-nnoremap <silent><nowait> <space>o  :<C-u>CocList outline<cr>
+nnoremap <silent><nowait> <space>co  :<C-u>CocList outline<cr>
 " Search workspace symbols.
-nnoremap <silent><nowait> <space>s  :<C-u>CocList -I symbols<cr>
+nnoremap <silent><nowait> <space>cs  :<C-u>CocList -I symbols<cr>
 " Do default action for next item.
-nnoremap <silent><nowait> <space>j  :<C-u>CocNext<CR>
+nnoremap <silent><nowait> <space>cj  :<C-u>CocNext<CR>
 " Do default action for previous item.
-nnoremap <silent><nowait> <space>k  :<C-u>CocPrev<CR>
+nnoremap <silent><nowait> <space>ck  :<C-u>CocPrev<CR>
 " Resume latest coc list.
-nnoremap <silent><nowait> <space>p  :<C-u>CocListResume<CR>
+nnoremap <silent><nowait> <space>cp  :<C-u>CocListResume<CR>
 
 
 
-" ALE
+" -------------------------------------------------------------------------------------------------
+"  ALE
+" -------------------------------------------------------------------------------------------------
 let g:ale_linters_explicit = 1
 let g:ale_completion_delay = 500
 let g:ale_echo_delay = 20
 let g:ale_lint_delay = 500
-let g:ale_echo_msg_format = '[%linter%] %code: %%s'
 let g:ale_lint_on_text_changed = 'normal'
 let g:ale_lint_on_insert_leave = 1
 let g:airline#extensions#ale#enabled = 1
