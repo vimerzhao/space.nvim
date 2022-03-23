@@ -111,6 +111,8 @@ noremap <Leader>vc :cclose<cr>
 " Note: <silent> should be after vmap if needed
 if has('python3')
   vmap <Leader>vf :py3f ~/.config/nvim/tools/clang-format.py<cr>
+  " https://vim.fandom.com/wiki/Use_Ctrl-O_instead_of_Esc_in_insert_mode_mappings
+  " imap <C-I> <c-o>:pyf <path-to-this-file>/clang-format.py<cr>
 endif
 noremap <Leader>vo :copen<cr>
 function! RunProject()
