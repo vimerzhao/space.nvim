@@ -30,6 +30,12 @@ highlight SignColumn ctermbg=234
 " 底部信息栏/命令输入框的高度，默认1
 " set cmdheight=2
 
+" 优化光标显示，Work Good For Me(Tmux + Terminal on Mac OS)
+" https://vim.fandom.com/wiki/Change_cursor_shape_in_different_modes
+let &t_SI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=1\x7\<Esc>\\"
+let &t_SR = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=2\x7\<Esc>\\"
+let &t_EI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=0\x7\<Esc>\\"
+
 " From coc.nvim
 " Always show the signcolumn, otherwise it would shift the text each time
 " diagnostics appear/become resolved.
