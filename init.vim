@@ -103,12 +103,25 @@ nmap <Leader><Down> :resize -2<CR>
 nmap <Leader><Left> :vertical resize +2<CR>
 nmap <Leader><Right> :vertical resize -2<CR>
 
-" Part2.3 LeaderF
+" LeaderF
+" Ref: https://retzzz.github.io/dc9af5aa/
 noremap <Leader>fm :Leaderf mru<cr>
 noremap <Leader>ff :Leaderf file<cr>
 noremap <Leader>fw :Leaderf window<cr>
 noremap <Leader>fb :Leaderf bufTag<cr>
 
+nmap <unique> <leader>fr <Plug>LeaderfRgPrompt
+nmap <unique> <leader>fra <Plug>LeaderfRgCwordLiteralNoBoundary
+nmap <unique> <leader>frb <Plug>LeaderfRgCwordLiteralBoundary
+nmap <unique> <leader>frc <Plug>LeaderfRgCwordRegexNoBoundary
+nmap <unique> <leader>frd <Plug>LeaderfRgCwordRegexBoundary
+
+vmap <unique> <leader>fra <Plug>LeaderfRgVisualLiteralNoBoundary
+vmap <unique> <leader>frb <Plug>LeaderfRgVisualLiteralBoundary
+vmap <unique> <leader>frc <Plug>LeaderfRgVisualRegexNoBoundary
+vmap <unique> <leader>frd <Plug>LeaderfRgVisualRegexBoundary
+
+" My Custom Command
 noremap <Leader>vc :cclose<cr>
 
 " Reft: https://clang.llvm.org/docs/ClangFormat.html
@@ -188,6 +201,7 @@ let g:Lf_ShowRelativePath = 1
 let g:Lf_HideHelp = 1
 let g:Lf_StlColorscheme = 'powerline'
 let g:Lf_PreviewResult = {'Function':0, 'BufTag':0}
+let g:Lf_PreviewInPopup = 1
 
 " Part3.5 nvim-treesitter " TODO 这个插件有待研究
 lua << EOF
