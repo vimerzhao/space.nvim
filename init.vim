@@ -105,7 +105,7 @@ nmap <Leader><Right> :vertical resize -2<CR>
 
 " LeaderF
 " Ref: https://retzzz.github.io/dc9af5aa/
-noremap <Leader>fm :Leaderf mru<cr>
+noremap <Leader>fm :LeaderfMruCwd<cr>
 noremap <Leader>ff :Leaderf file<cr>
 noremap <Leader>fw :Leaderf window<cr>
 noremap <Leader>fb :Leaderf bufTag<cr>
@@ -190,9 +190,9 @@ highlight SignifySignChange ctermfg=yellow ctermbg=234 guifg=#ffff00 cterm=NONE 
 " Part3.4 LeaderF
 "let g:Lf_ShortcutF = '<c-p>' " TODO 如何有待论证
 "let g:Lf_ShortcutB = '<m-n>'
-let g:Lf_StlSeparator = { 'left': '', 'right': '', 'font': '' }
-let g:Lf_StlSeparator = { 'left': "\ue0b0", 'right': "\ue0b2", 'font': "DejaVu Sans Mono for Powerline" }
+" echo "\ue0b0 \u00b1 \ue0a0 \u27a6 \u2718 \u26a1 \u2699"
 let g:Lf_UseVersionControlTool = 0
+let g:Lf_RecurseSubmodules = 1
 let g:Lf_RootMarkers = ['.vimproject']
 let g:Lf_WorkingDirectoryMode = 'AF'
 let g:Lf_WindowHeight = 0.30
@@ -202,6 +202,8 @@ let g:Lf_HideHelp = 1
 let g:Lf_StlColorscheme = 'powerline'
 let g:Lf_PreviewResult = {'Function':0, 'BufTag':0}
 let g:Lf_PreviewInPopup = 1
+" https://github.com/Yggdroot/LeaderF/issues/567
+let g:Lf_ShowDevIcons = 0
 
 " Part3.5 nvim-treesitter " TODO 这个插件有待研究
 lua << EOF
