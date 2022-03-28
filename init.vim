@@ -17,10 +17,10 @@ set nocompatible
 
 set number relativenumber
 " https://www.ditig.com/256-colors-cheat-sheet
-highlight Normal cterm=NONE ctermbg=236 ctermfg=NONE guibg=NONE guifg=NONE
-highlight LineNr cterm=NONE ctermbg=234 ctermfg=grey guibg=NONE guifg=NONE
+highlight Normal cterm=NONE ctermbg=234 ctermfg=NONE guibg=NONE guifg=NONE
+highlight LineNr cterm=NONE ctermbg=233 ctermfg=grey guibg=NONE guifg=NONE
 set cursorline
-highlight CursorLine cterm=NONE ctermbg=240 ctermfg=NONE guibg=NONE guifg=NONE
+highlight CursorLine cterm=NONE ctermbg=232 ctermfg=NONE guibg=NONE guifg=NONE
 highlight Visual cterm=NONE ctermbg=1 ctermfg=NONE guibg=NONE guifg=NONE
 
 " 配置弹出框的样式
