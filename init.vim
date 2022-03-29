@@ -105,7 +105,7 @@ nmap <Leader><Right> :vertical resize -2<CR>
 
 " LeaderF
 " Ref: https://retzzz.github.io/dc9af5aa/
-noremap <Leader>fm :LeaderfMruCwd<cr>
+noremap <Leader>fm :Leaderf mru<cr>
 noremap <Leader>ff :Leaderf file<cr>
 noremap <Leader>fw :Leaderf window<cr>
 noremap <Leader>fb :Leaderf bufTag<cr>
