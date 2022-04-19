@@ -15,6 +15,10 @@
 " no compatible with Vi
 set nocompatible
 
+" use true color instead of xterm-256
+if $TERM != 'xterm-256color'
+  set termguicolors
+endif
 set number relativenumber
 " https://www.ditig.com/256-colors-cheat-sheet
 highlight Normal cterm=NONE ctermbg=234 ctermfg=NONE guibg=NONE guifg=NONE
