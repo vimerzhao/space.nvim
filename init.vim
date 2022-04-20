@@ -21,16 +21,16 @@ if $TERM != 'xterm-256color'
 endif
 set number relativenumber
 " https://www.ditig.com/256-colors-cheat-sheet
-highlight Normal cterm=NONE ctermbg=234 ctermfg=NONE guibg=NONE guifg=NONE
-highlight LineNr cterm=NONE ctermbg=233 ctermfg=grey guibg=NONE guifg=NONE
+highlight Normal cterm=NONE ctermbg=234 ctermfg=NONE guibg=#1D1E19 guifg=NONE
+highlight LineNr cterm=NONE ctermbg=233 ctermfg=grey guibg=#000000 guifg=NONE
 set cursorline
-highlight CursorLine cterm=NONE ctermbg=232 ctermfg=NONE guibg=NONE guifg=NONE
-highlight Visual cterm=NONE ctermbg=1 ctermfg=NONE guibg=NONE guifg=NONE
+highlight CursorLine cterm=NONE ctermbg=232 ctermfg=NONE guibg=#000000 guifg=NONE
+highlight Visual cterm=NONE ctermbg=1 ctermfg=NONE guibg=#ff0000 guifg=#000000
 
 " 配置弹出框的样式
-highlight PMenu ctermfg=34 ctermbg=238 guifg=black guibg=darkgrey
-highlight PMenuSel ctermfg=40 ctermbg=244 guifg=darkgrey guibg=black
-highlight SignColumn ctermbg=234
+highlight PMenu ctermfg=34 ctermbg=238 guifg=white guibg=#303030
+highlight PMenuSel ctermfg=40 ctermbg=244 guifg=#00cc00 guibg=#505050
+highlight SignColumn ctermbg=234 guibg=black
 " 底部信息栏/命令输入框的高度，默认1
 " set cmdheight=2
 
