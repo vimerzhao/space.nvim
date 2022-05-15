@@ -50,7 +50,10 @@ else
   "set signcolumn=yes
 endif
 
+" 
 set autowrite
+autocmd InsertLeave * if &readonly==0 && filereadable(bufname('%')) | silent update | endif
+
 
 set encoding=utf-8 fileencodings=utf-8 termencoding=utf-8
 " set noic / set noignorecase
@@ -149,6 +152,7 @@ function! RunProject()
   :AsyncRun echo ${VIM_RUN_SCRIPT_PATH} && sh ${VIM_RUN_SCRIPT_PATH}
 endfunction
 noremap <Leader>vr :call RunProject()<cr>
+noremap <Leader>vs :update<cr>
 
 
 " noremap <Leader>vC :call CleanProject()<cr>
