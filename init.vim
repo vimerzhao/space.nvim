@@ -119,7 +119,7 @@ nmap <Leader><Right> :vertical resize -2<CR>
 " LeaderF
 " Ref: https://retzzz.github.io/dc9af5aa/
 noremap <Leader>fm :Leaderf mru<cr>
-noremap <Leader>ff :Leaderf file<cr>
+noremap <Leader>ff :Leaderf file --nameOnly --no-ignore<cr>
 noremap <Leader>fw :Leaderf window<cr>
 noremap <Leader>fb :Leaderf bufTag<cr>
 
@@ -175,7 +175,10 @@ Plug 'preservim/nerdtree'
 Plug 'Xuyuanp/nerdtree-git-plugin'
 
 Plug 'nvim-treesitter/nvim-treesitter'
+
 Plug 'mhinz/vim-signify'
+Plug 'tpope/vim-fugitive'
+
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'dense-analysis/ale'
 Plug 'Yggdroot/LeaderF', { 'do': ':LeaderfInstallCExtension' }
@@ -209,6 +212,10 @@ let g:Lf_UseVersionControlTool = 0
 let g:Lf_RecurseSubmodules = 1
 let g:Lf_RootMarkers = ['.vimproject']
 let g:Lf_WorkingDirectoryMode = 'AF'
+let g:Lf_WildIgnore = {
+      \ 'dir': ['.svn','.git','.hg', '.mypy_cache'],
+      \ 'file': ['*.sw?','~$*','*.bak','*.exe','*.o','*.so','*.py[co]']
+      \}
 let g:Lf_WindowHeight = 0.30
 let g:Lf_CacheDirectory = expand('~/.vim/cache')
 let g:Lf_ShowRelativePath = 1
