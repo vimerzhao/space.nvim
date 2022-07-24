@@ -80,7 +80,7 @@ set listchars=tab:»■,precedes:«,extends:»,trail:■
 
 " 进入Vim和离开InsertMode时，都自动切换到英文输入法
 " TODO 可以更智能，记录之前的输入法
-# autocmd VimEnter,InsertLeave * silent! :!im-select 'com.apple.keylayout.ABC'
+" autocmd VimEnter,InsertLeave * silent! :!im-select 'com.apple.keylayout.ABC'
 
 " Return to last edit position when opening files (You want this!)
 " https://stackoverflow.com/questions/7894330/preserve-last-editing-position-in-vim
