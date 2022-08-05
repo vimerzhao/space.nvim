@@ -210,7 +210,7 @@ highlight SignifySignChange ctermfg=yellow ctermbg=234 guifg=#ffff00 cterm=NONE 
 " echo "\ue0b0 \u00b1 \ue0a0 \u27a6 \u2718 \u26a1 \u2699"
 let g:Lf_UseVersionControlTool = 0
 let g:Lf_RecurseSubmodules = 1
-let g:Lf_RootMarkers = ['.vimproject']
+let g:Lf_RootMarkers = ['.vimproject', '.mainframer']
 let g:Lf_WorkingDirectoryMode = 'AF'
 let g:Lf_WildIgnore = {
       \ 'dir': ['.svn','.git','.hg', '.mypy_cache'],
@@ -262,6 +262,11 @@ EOF
 " Set internal encoding of vim, not needed on neovim, since coc.nvim using some
 " unicode characters in the file autoload/float.vim
 set encoding=utf-8
+
+" TODO For Windows
+if has('macunix')
+  set fileformat=unix
+endif
 
 " TextEdit might fail if hidden is not set.
 set hidden
