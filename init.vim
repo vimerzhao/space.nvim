@@ -50,7 +50,19 @@ else
   "set signcolumn=yes
 endif
 
-" 
+" TODO Only for markdown
+function! VPasteImage()
+  " TODO For Windows
+  let name=system("date +'%Y-%m-%d-%H-%M-%S.png'")
+  execute "normal! i![](../assets/" . trim(name). ")\<Esc>F]"
+  exec "!pngpaste ../assets/" . trim(name)
+endfunction
+
+function! VToday()
+  let today=system("LC_TIME='en' date +'\%m,\%d \%a'")
+  execute "normal! i" . trim(today). "\<Esc>"
+endfunction
+
 set autowrite
 autocmd InsertLeave * if &readonly==0 && filereadable(bufname('%')) | silent update | endif
 
@@ -118,7 +130,7 @@ nmap <Leader><Right> :vertical resize -2<CR>
 
 " LeaderF
 " Ref: https://retzzz.github.io/dc9af5aa/
-noremap <Leader>fm :Leaderf mru<cr>
+noremap <Leader>fm :Leaderf mru --project<cr>
 noremap <Leader>ff :Leaderf file --nameOnly --no-ignore<cr>
 noremap <Leader>fw :Leaderf window<cr>
 noremap <Leader>fb :Leaderf bufTag<cr>
@@ -208,13 +220,15 @@ highlight SignifySignChange ctermfg=yellow ctermbg=234 guifg=#ffff00 cterm=NONE 
 "let g:Lf_ShortcutF = '<c-p>' " TODO 如何有待论证
 "let g:Lf_ShortcutB = '<m-n>'
 " echo "\ue0b0 \u00b1 \ue0a0 \u27a6 \u2718 \u26a1 \u2699"
+"
+" https://github.com/Yggdroot/LeaderF/issues/53#issuecomment-316572262
 let g:Lf_UseVersionControlTool = 0
 let g:Lf_RecurseSubmodules = 1
 let g:Lf_RootMarkers = ['.vimproject', '.mainframer']
 let g:Lf_WorkingDirectoryMode = 'AF'
 let g:Lf_WildIgnore = {
-      \ 'dir': ['.svn','.git','.hg', '.mypy_cache'],
-      \ 'file': ['*.sw?','~$*','*.bak','*.exe','*.o','*.so','*.py[co]']
+      \ 'dir': ['.svn','.git','.hg', '.mypy_cache', '.build', '.cxx', 'build'],
+      \ 'file': ['*.sw?','~$*','*.bak','*.exe','*.o','*.so','*.py[co]','*.o.d']
       \}
 let g:Lf_WindowHeight = 0.30
 let g:Lf_CacheDirectory = expand('~/.vim/cache')
@@ -225,6 +239,9 @@ let g:Lf_PreviewResult = {'Function':0, 'BufTag':0}
 let g:Lf_PreviewInPopup = 1
 " https://github.com/Yggdroot/LeaderF/issues/567
 let g:Lf_ShowDevIcons = 0
+" 不清Cache有时候会检索错误
+let g:Lf_UseCache = 0
+let g:Lf_UseMemoryCache = 0
 
 " Part3.5 nvim-treesitter " TODO 这个插件有待研究
 lua << EOF
