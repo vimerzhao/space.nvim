@@ -63,6 +63,23 @@ function! VToday()
   execute "normal! i" . trim(today). "\<Esc>"
 endfunction
 
+" TODO Use A readonly buffer
+function! VGitBlame()
+  let start=line(".")-6
+  " https://superuser.com/questions/320395/how-do-i-use-a-variable-content-as-an-argument-for-vim-command
+  exec "!git blame -L ". trim(start) .",+12  %"
+endfunction
+
+function! VGitLog()
+  exec "!git log --pretty=oneline %"
+endfunction
+
+function! VGitPrintLog()
+  exec "!git log -p %"
+endfunction
+
+nnoremap <leader>gb :call VGitBlame()<CR>
+
 set autowrite
 autocmd InsertLeave * if &readonly==0 && filereadable(bufname('%')) | silent update | endif
 
