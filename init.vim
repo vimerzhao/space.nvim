@@ -147,10 +147,19 @@ nmap <Leader><Right> :vertical resize -2<CR>
 
 " LeaderF
 " Ref: https://retzzz.github.io/dc9af5aa/
-noremap <Leader>fm :Leaderf mru --project<cr>
-noremap <Leader>ff :Leaderf file --nameOnly --no-ignore<cr>
-noremap <Leader>fw :Leaderf window<cr>
-noremap <Leader>fb :Leaderf bufTag<cr>
+" 接连遇到Bug，弃坑了
+" noremap <Leader>fm :Leaderf mru --project<cr>
+" noremap <Leader>ff :Leaderf file --nameOnly --no-ignore<cr>
+" noremap <Leader>fw :Leaderf window<cr>
+" noremap <Leader>fb :Leaderf bufTag<cr>
+"
+" Find files using Telescope command-line sugar.
+"nnoremap <leader>ff <cmd>Telescope find_files<cr>
+nnoremap <leader>ff :lua require('telescope.builtin').find_files({ cwd = find_root_marker('.root'), file_ignore_patterns = get_ignore_patterns()  })<CR>
+nnoremap <leader>fm :lua require('telescope.builtin').find_files({ file_ignore_patterns = get_ignore_patterns()  })<CR>
+nnoremap <leader>fg <cmd>Telescope live_grep<cr>
+nnoremap <leader>fb <cmd>Telescope buffers<cr>
+nnoremap <leader>fh <cmd>Telescope help_tags<cr>
 
 nmap <unique> <leader>fr <Plug>LeaderfRgPrompt
 nmap <unique> <leader>fra <Plug>LeaderfRgCwordLiteralNoBoundary
@@ -210,7 +219,9 @@ Plug 'tpope/vim-fugitive'
 
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'dense-analysis/ale'
-Plug 'Yggdroot/LeaderF', { 'do': ':LeaderfInstallCExtension' }
+"Plug 'Yggdroot/LeaderF', { 'do': ':LeaderfInstallCExtension' }
+Plug 'nvim-lua/plenary.nvim'
+Plug 'nvim-telescope/telescope.nvim', { 'tag': '0.1.2' }
 
 Plug 'skywind3000/asyncrun.vim'
 call plug#end()
@@ -289,6 +300,45 @@ require'nvim-treesitter.configs'.setup {
     additional_vim_regex_highlighting = false,
   },
 }
+
+function find_root_marker(marker)
+    local current_dir = vim.fn.expand('%:p:h')
+    while current_dir ~= '/' do
+        if vim.fn.glob(current_dir .. '/' .. marker) ~= '' then
+            return current_dir
+        end
+        current_dir = vim.fn.fnamemodify(current_dir, ':h')
+    end
+    return nil
+end
+
+local function find_root_file(marker)
+    local current_dir = vim.fn.expand('%:p:h')
+
+    while current_dir ~= '/' do
+        local marker_file = current_dir .. '/' .. marker
+        if vim.fn.filereadable(marker_file) == 1 then
+            return marker_file
+        end
+        current_dir = vim.fn.fnamemodify(current_dir, ':h')
+    end
+
+    return nil
+end
+
+function get_ignore_patterns()
+    local ignore_file = find_root_file('.nvimignore')
+    if ignore_file then
+        local patterns = {}
+        for pattern in io.lines(ignore_file) do
+            table.insert(patterns, pattern)
+        end
+        return patterns
+    else
+        return nil
+    end
+end
+
 EOF
 
 " coc.nvim
